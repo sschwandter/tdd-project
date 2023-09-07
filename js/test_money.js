@@ -59,21 +59,23 @@ class MoneyTest {
     let expectedError = new Error(
       "Missing exchange rate(s):[USD->Kalganid,EUR->Kalganid,KRW->Kalganid]"
     );
-    assert.throws(() => 
-      portfolio.evaluate(this.bank, "Kalganid"), expectedError);
+    assert.throws(
+      () => portfolio.evaluate(this.bank, "Kalganid"),
+      expectedError
+    );
   }
   testConversion() {
-    let bank = new Bank();
-    bank.addExchangeRate("EUR", "USD", 1.2);
     let tenEuros = new Money(10, "EUR");
-    assert.deepStrictEqual(bank.convert(tenEuros, "USD"), new Money(12, "USD"));
+    assert.deepStrictEqual(
+      this.bank.convert(tenEuros, "USD"),
+      new Money(12, "USD")
+    );
   }
   testConversionWithMissingExchangeRate() {
-    let bank = new Bank();
     let tenEuros = new Money(10, "EUR");
     let expectedError = new Error("EUR->Kalganid");
-    assert.throws(function () {
-      bank.convert(tenEuros, "Kalganid");
+    assert.throws(() => {
+      this.bank.convert(tenEuros, "Kalganid");
     }, expectedError);
   }
   runAllTests() {
